@@ -14,7 +14,6 @@ typedef vector<vector<int>> matrix;
 
 namespace
 {
-	vector<int> m_numbers;
 	const matrix MATRIX =
 	{ { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
 	{ 2, 20, 6, 8, 10, 12, 14, 16, 18, 20 },
@@ -25,7 +24,8 @@ namespace
 	{ 7, 14, 21, 28, 35, 42, 49, 56, 63, 70 },
 	{ 8, 32, 24, 32, 40, 48, 56, 64, 72, 80 },
 	{ 9, 18, 27, 36, 45, 54, 63, 72, 81, 90 },
-	{ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 } };
+	{ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 }
+	};
 
 	void GenerateInitVectorListToFile(int dimension)
 	{
@@ -76,55 +76,43 @@ namespace
 		}
 
 		out.close();
-	}	
+	}
 }
 
 class MatrixRang
 {
 public:
-	int GetMatrixRang(int threadCount)
+	int GetMatrixRang()
 	{
-		int i = 0;
 		int q = 1;
-		vector<DWORD> dwThreadId(threadCount);
-		vector<int> qq(MATRIX.size());
-		HANDLE *hTread  = new HANDLE[threadCount];
-		int threads = MATRIX.size()/ threadCount > 0 ? MATRIX.size()/ threadCount : 0;
-		int additionalThread = q - threads > 0 ? MATRIX.size()- threads : 0;
-
+		int r = 0;
 		while (q <= MATRIX.size())
 		{
-			qq[q - 1] = q;
-			if (threads == 0)
+			matrix Arr(q, vector<int>(q));
+			for (int a = 0;a<(MATRIX.size() - (q - 1));a++)
 			{
-				hTread[i] = CreateThread(NULL, 0, SubMatrix, (LPVOID)&qq[q - 1], 0, &dwThreadId[i]);
-				q++;
-				qq[q - 1] = q;
-			}
-			else
-			{
-				if (i == 0)
+				for (int b = 0;b<(MATRIX.size() - (q - 1));b++)
 				{
-					for (int k = 0; k < additionalThread; k++)
+					for (int c = 0;c<q;c++)
 					{
-						hTread[i] = CreateThread(NULL, 0, SubMatrix, (LPVOID)&qq[q - 1], 0, &dwThreadId[i]);
-						q++;
-						qq[q - 1] = q;
+						for (int d = 0;d<q;d++)
+						{
+							Arr[c][d] = MATRIX[a + c][b + d];
+						}
+					}
+
+					if (!(determ(Arr, q) == 0))
+					{
+						r = q;
 					}
 				}
-				for (int k = 0; k < threads; k++)
-				{
-					hTread[i] = CreateThread(NULL, 0, SubMatrix, (LPVOID)&qq[q - 1], 0, &dwThreadId[i]);
-					q++;
-					qq[q - 1] = q;
-				}
+				
 			}
-			i++;
+			q++;
 		}
-		WaitForMultipleObjects(threads > 0 ? threadCount : MATRIX.size(), hTread,true, INFINITE);
-		return 0;
+		return r;
 	}
-	static double determ(const matrix & Arr, size_t size)
+	double determ(const matrix & Arr, size_t size)
 	{
 		int i, j;
 		double det = 0;
@@ -153,43 +141,13 @@ public:
 		}
 		return det;
 	}
-
-	static DWORD WINAPI SubMatrix(LPVOID qParam)
-	{
-		size_t q = (*((size_t*)qParam));
-		matrix Arr(q, vector<int>(q));
-		for (int a = 0;a<(MATRIX[0].size() - (q - 1));a++)
-		{
-			for (int b = 0;b<(MATRIX.size() - (q - 1));b++)
-			{
-				for (int c = 0;c<q;c++)
-				{
-					for (int d = 0;d<q;d++)
-					{
-						Arr[c][d] = MATRIX[a + c][b + d];
-					}
-				}
-
-				if (!(determ(Arr, q) == 0))
-				{
-					m_numbers.push_back(q);
-				}
-			}
-		}
-		ExitThread(0);
-		return 0;
-	}
 };
 
 
 int main(int argc, char* argv[])
 {
-	if (argc == 2)
-	{
-		MatrixRang mRang;
-		mRang.GetMatrixRang(atoi(argv[1]));
-	}
-	//std::cout << m_numbers.back();
+	MatrixRang mRang;
+	std::cout << mRang.GetMatrixRang();
 	return 0;
 }
 
