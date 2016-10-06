@@ -4,9 +4,9 @@
 class CMatrixAgregator
 {
 public:
-	CMatrixAgregator(const Matrix & matrix) : m_matrix(matrix) {}
 	virtual unsigned GetRang() = 0;
-protected:
 
-	Matrix m_matrix;
+protected:
+	CMatrixAgregator(const CMatrix & matrix) : m_matrix(matrix) {}
+	CMatrix m_matrix;
 };

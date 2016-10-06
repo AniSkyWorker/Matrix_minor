@@ -1,14 +1,10 @@
 #pragma once
-#include <vector>
-#include <iostream>
-#include <fstream>
 
-using namespace std;
-typedef vector<vector<int>> Matrix;
+typedef std::vector<std::vector<int>> MatrixType;
 
 namespace
 {
-	const Matrix MATRIX = {
+	const MatrixType MATRIX = {
 		{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100 },
 		{ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192, 194, 196, 198, 200 },
 		{ 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99, 102, 105, 108, 111, 114, 117, 120, 123, 126, 129, 132, 135, 138, 141, 144, 147, 150, 153, 156, 159, 162, 165, 168, 171, 174, 177, 180, 183, 186, 189, 192, 195, 198, 201, 204, 207, 210, 213, 216, 219, 222, 225, 228, 231, 234, 237, 240, 243, 246, 249, 252, 255, 258, 261, 264, 267, 270, 273, 276, 279, 282, 285, 288, 291, 294, 297, 300 },
@@ -111,98 +107,19 @@ namespace
 		{ 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900, 4000, 4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900, 5000, 5100, 5200, 5300, 5400, 5500, 5600, 5700, 5800, 5900, 6000, 6100, 6200, 6300, 6400, 6500, 6600, 6700, 6800, 6900, 7000, 7100, 7200, 7300, 7400, 7500, 7600, 7700, 7800, 7900, 8000, 8100, 8200, 8300, 8400, 8500, 8600, 8700, 8800, 8900, 9000, 9100, 9200, 9300, 9400, 9500, 9600, 9700, 9800, 9900, 10000 }
 	};
 
-	void GenerateInitVectorListToFile(int dimension)
-	{
-		ofstream out;
-		out.open("1.txt");
-		for (auto i = 1; i < dimension + 1; i++)
-		{
-			out << "{";
-			for (auto j = 1; j < dimension + 1; j++)
-			{
-				out << i * j;
-				if (j != dimension)
-				{
-					out << ", ";
-				}
-			}
-			out << "}";
-			if (i != dimension)
-			{
-				out << "," << endl;
-			}
-		}
-
-		out.close();
-	}
-
-	void PrintMatrix(const Matrix & mtrx)
-	{
-		ofstream out;
-		out.open("result.txt");
-		auto dimension = mtrx.size();
-		for (size_t i = 0; i < mtrx.size(); i++)
-		{
-			out << "{";
-			for (size_t j = 0; j < mtrx.size(); j++)
-			{
-				out << mtrx[i][j];
-				if (j != dimension - 1)
-				{
-					out << ", ";
-				}
-			}
-			out << "}";
-			if (i != dimension - 1)
-			{
-				out << "," << endl;
-			}
-		}
-
-		out.close();
-	}
-
-	double GetDeterminant(Matrix & matrix)
-	{
-		double det = 1;
-		for (size_t i = 0; i < matrix.size(); ++i)
-		{
-			size_t k = i;
-			for (size_t j = i + 1; j < matrix.size(); ++j)
-			{
-				if (fabs(matrix[j][i]) > fabs(matrix[k][i]))
-				{
-					k = j;
-				}
-			}
-			if (fabs(matrix[k][i]) < 1E-9)
-			{
-				return 0;
-			}
-			swap(matrix[i], matrix[k]);
-			if (i != k)
-			{
-				det = -det;
-			}
-
-		
-			det *= matrix[i][i];
-
-			for (size_t j = i + 1; j < matrix.size(); ++j)
-			{
-				matrix[i][j] /= matrix[i][i];
-			}
-			for (size_t j = 0; j < matrix.size(); ++j)
-			{
-				if (j != i && fabs(matrix[j][i]) > 1E-9)
-				{
-					for (size_t k = i + 1; k < matrix.size(); ++k)
-					{
-						matrix[j][k] -= matrix[i][k] * matrix[j][i];
-					}
-				}
-			}
-		}
-		return det;
-	}
+	void GenerateInitVectorListToFile(int dimension);
 }
+
+class CMatrix
+{
+public:
+	CMatrix(const MatrixType & matrix) : m_matrix(matrix) {}
+
+	size_t GetDimension() const;
+	void PrintMatrix() const;
+
+	MatrixType & GetMatrix();
+	double GetDeterminant(MatrixType & matrix);
+private:
+	MatrixType m_matrix;
+};

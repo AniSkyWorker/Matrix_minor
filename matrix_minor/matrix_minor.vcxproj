@@ -85,6 +85,7 @@
     <ClInclude Include="MatrixLineAgregator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="matrix.cpp" />
     <ClCompile Include="MatrixThreadedAgregator.cpp" />
     <ClCompile Include="matrix_minor.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -1,33 +1,36 @@
 #include "stdafx.h"
 #include "MatrixLineAgregator.h"
 
+using namespace std;
+
 unsigned ÑMatrixLineAgregator::GetRang()
 {
-	size_t q = 1;
-	unsigned r = 0;
-	while (q <= m_matrix.size())
+	size_t currentDimension = 1;
+	size_t matrixDimension = m_matrix.GetDimension();
+	unsigned rang = 0;
+	while (currentDimension <= matrixDimension)
 	{
-		Matrix matrix(q, vector<int>(q));
-		for (size_t a = 0;a < (m_matrix.size() - (q - 1));a++)
+		MatrixType matrix(currentDimension, vector<int>(currentDimension));
+		for (size_t i = 0; i < (matrixDimension - (currentDimension - 1)); i++)
 		{
-			for (size_t b = 0;b < (m_matrix.size() - (q - 1));b++)
+			for (size_t j = 0; j < (matrixDimension - (currentDimension - 1)); j++)
 			{
-				for (size_t c = 0;c<q;c++)
+				for (size_t i1 = 0; i1 < currentDimension; i1++)
 				{
-					for (size_t d = 0;d<q;d++)
+					for (size_t j1 = 0; j1 < currentDimension; j1++)
 					{
-						matrix[c][d] = m_matrix[a + c][b + d];
+						matrix[i1][j1] = m_matrix.GetMatrix()[i + i1][j + j1];
 					}
 				}
 
-				if (GetDeterminant(matrix) != 0)
+				if (m_matrix.GetDeterminant(matrix) != 0)
 				{
-					r = q;
+					rang = currentDimension;
 				}
 			}
 
 		}
-		q++;
+		currentDimension++;
 	}
-	return r;
+	return rang;
 }

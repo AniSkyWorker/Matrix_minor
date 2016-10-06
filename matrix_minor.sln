@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "matrix_minor", "matrix_minor\matrix_minor.vcxproj", "{D67D0550-6209-49BB-8DF3-1DDA04500640}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "matrix_minor_line", "matrix_minor_line\matrix_minor_line.vcxproj", "{B086C3D9-E44F-4416-8C71-0D689C6E9E51}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,14 +19,6 @@ Global
 		{D67D0550-6209-49BB-8DF3-1DDA04500640}.Release|Win32.ActiveCfg = Release|Win32
 		{D67D0550-6209-49BB-8DF3-1DDA04500640}.Release|Win32.Build.0 = Release|Win32
 		{D67D0550-6209-49BB-8DF3-1DDA04500640}.Release|x64.ActiveCfg = Release|Win32
-		{B086C3D9-E44F-4416-8C71-0D689C6E9E51}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B086C3D9-E44F-4416-8C71-0D689C6E9E51}.Debug|Win32.Build.0 = Debug|Win32
-		{B086C3D9-E44F-4416-8C71-0D689C6E9E51}.Debug|x64.ActiveCfg = Debug|x64
-		{B086C3D9-E44F-4416-8C71-0D689C6E9E51}.Debug|x64.Build.0 = Debug|x64
-		{B086C3D9-E44F-4416-8C71-0D689C6E9E51}.Release|Win32.ActiveCfg = Release|Win32
-		{B086C3D9-E44F-4416-8C71-0D689C6E9E51}.Release|Win32.Build.0 = Release|Win32
-		{B086C3D9-E44F-4416-8C71-0D689C6E9E51}.Release|x64.ActiveCfg = Release|x64
-		{B086C3D9-E44F-4416-8C71-0D689C6E9E51}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

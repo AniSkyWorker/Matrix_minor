@@ -1,42 +1,39 @@
 #include "stdafx.h"
 #include <algorithm>
 #include "MatrixThreadedAgregator.h"
+#include <Windows.h>
+
+using namespace std;
+typedef std::pair<CMatrix*, unsigned> dimensionPair;
 
 vector<unsigned> CMatrixThreadedAgregator::m_rang;
-map<size_t, vector<size_t>> CMatrixThreadedAgregator::m_matrixQueue;
 
 unsigned CMatrixThreadedAgregator::GetRang()
 {
 	vector<DWORD> dwThreadId(m_threadsCount);
 	HANDLE *hTread = new HANDLE[m_threadsCount];
-	vector<unsigned> threadTrigger;
-	unsigned dimensionsPerThread = m_matrix.size() / m_threadsCount;
-	for (size_t dimension = 1; dimension < m_matrix.size();dimension++)
+	vector<dimensionPair> threadTrigger;
+	for (unsigned dimension = 1; dimension < m_matrix.GetDimension(); dimension++)
 	{
-		unsigned thread = dimension - 1;
-		vector<size_t> dimensions;
-		dimensions.push_back(dimension);
-		threadTrigger.push_back(thread);
-		auto triggersPair = make_pair(thread, dimensions);
-		m_matrixQueue.emplace(triggersPair);
+		threadTrigger.emplace_back(make_pair(&m_matrix, dimension));
 	}
 
-	for (size_t cur = 0, i = 0; cur < m_matrixQueue.size();)
+	for (size_t triggerIndex = 0, currentThreadCount = 0; triggerIndex < m_matrix.GetDimension();)
 	{
-		if (i < m_threadsCount)
+		if (currentThreadCount < m_threadsCount)
 		{
-			hTread[i] = CreateThread(NULL, 0, SubMatrix, (LPVOID)&threadTrigger[cur], 0, &dwThreadId[i]);
-			i++;
-			cur++;
+			hTread[currentThreadCount] = CreateThread(NULL, 0, SubMatrix, (LPVOID)&threadTrigger[triggerIndex], 0, &dwThreadId[currentThreadCount]);
+			currentThreadCount++;
+			triggerIndex++;
 		}
 		else
 		{
-			WaitForMultipleObjects(m_threadsCount - 1, hTread, true, INFINITE);
-			i = 0;
+			WaitForMultipleObjects(m_threadsCount, hTread, true, INFINITE);
+			currentThreadCount = 0;
 		}
 	}
 
-	WaitForMultipleObjects(m_threadsCount - 1, hTread, true, INFINITE);
+	WaitForMultipleObjects(m_threadsCount, hTread, true, INFINITE);
 	delete[] hTread;
 	auto result = max_element(m_rang.begin(), m_rang.end());
 	return result == m_rang.end() ? 0 : *result;
@@ -44,28 +41,29 @@ unsigned CMatrixThreadedAgregator::GetRang()
 
 DWORD CMatrixThreadedAgregator::SubMatrix(LPVOID qParam)
 {
-	size_t p = (*((int*)qParam));
-	auto q = m_matrixQueue[p];
-	for (size_t i = 0; i < q.size(); i++)
+	dimensionPair pair = *((dimensionPair*)qParam);
+	if (pair.first != nullptr)
 	{
-		Matrix Arr(q[i], vector<int>(q[i]));
-		for (size_t a = 0;a < (MATRIX[0].size() - (q[i] - 1));a++)
+		CMatrix baseMatrix = *(pair.first);
+		unsigned dimension = pair.second;
+		MatrixType subMatrix(dimension, vector<int>(dimension));
+		for (size_t i = 0; i < (baseMatrix.GetDimension() - (dimension - 1)); i++)
 		{
-			for (size_t b = 0;b < (MATRIX.size() - (q[i] - 1));b++)
+			for (size_t j = 0; j < (baseMatrix.GetDimension() - (dimension - 1)); j++)
 			{
-				for (size_t c = 0;c < q[0];c++)
+				for (size_t i1 = 0; i1 < dimension; i1++)
 				{
-					for (size_t d = 0;d < q[0];d++)
+					for (size_t j1 = 0; j1 < dimension; j1++)
 					{
-						Arr[c][d] = MATRIX[a + c][b + d];
+						subMatrix[i1][j1] = baseMatrix.GetMatrix()[i + i1][j + j1];
 					}
 				}
 
-				if (GetDeterminant(Arr) != 0)
+				if (baseMatrix.GetDeterminant(subMatrix) != 0)
 				{
-					if (all_of(m_rang.begin(), m_rang.end(), [=](unsigned cur) { return cur != q[i];}))
+					if (all_of(m_rang.begin(), m_rang.end(), [=](unsigned cur) { return cur != dimension;}))
 					{
-						m_rang.push_back(q[i]);
+						m_rang.push_back(dimension);
 					}
 				}
 			}
