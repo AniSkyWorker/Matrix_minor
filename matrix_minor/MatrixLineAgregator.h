@@ -1,11 +1,11 @@
 #pragma once
 #include "MatrixAgregator.h"
 
-class ÑMatrixLineAgregator : public CMatrixAgregator
+class CMatrixLineAgregator : public CMatrixAgregator
 {
 public:
-	ÑMatrixLineAgregator(const CMatrix & matrix) : CMatrixAgregator(matrix) {}
+	CMatrixLineAgregator(const CMatrix & matrix);
 
-	unsigned GetRang() override;
+    unsigned GetRang() override;
 };
 

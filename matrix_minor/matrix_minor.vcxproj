@@ -77,15 +77,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="matrix.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="MatrixAgregator.h" />
     <ClInclude Include="MatrixThreadedAgregator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="MatrixLineAgregator.h" />
+    <ClInclude Include="TestMatrixData.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="MatrixThreadedAgregator.cpp" />
     <ClCompile Include="matrix_minor.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -4,12 +4,14 @@
 class CMatrixThreadedAgregator : public CMatrixAgregator
 {
 public:
-	CMatrixThreadedAgregator(unsigned threadsCount, const CMatrix & matrix) : m_threadsCount(threadsCount), CMatrixAgregator(matrix) {}
+    CMatrixThreadedAgregator(const CMatrix & matrix);
 
-	unsigned GetRang() override;
-	static DWORD WINAPI SubMatrix(LPVOID qParam);
+    unsigned GetRang() override;
+    void SetThreadsCount(unsigned threadsCount);
 
-	static std::vector<unsigned> m_rang;
 private:
-	unsigned m_threadsCount;
+    static DWORD WINAPI GetSubMatrixRangCalculationResult(LPVOID qParam);
+
+    static std::vector<unsigned> m_rang;
+    unsigned m_threadsCount;
 };

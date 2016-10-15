@@ -11,5 +11,8 @@
 #include <tchar.h>
 
 #include <vector>
+#include <iostream>
+#include <ctime>
+#include <windows.h>
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
