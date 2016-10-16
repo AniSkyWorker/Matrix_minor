@@ -74,9 +74,11 @@ DWORD CMatrixThreadedAgregator::GetSubMatrixRangCalculationResult(LPVOID qParam)
 
                 if (baseMatrix.GetDeterminant(subMatrix) != 0)
                 {
-                    if (all_of(m_rang.begin(), m_rang.end()
-                        , [=](unsigned current)
-                        { return current != dimension; }))
+                    if (all_of(
+                        m_rang.begin(),
+                        m_rang.end(),
+                        [=](unsigned current) { return current != dimension; }
+                        ))
                     {
                         m_rang.push_back(dimension);
                     }
