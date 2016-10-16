@@ -4,7 +4,7 @@
 class CMatrixLineAgregator : public CMatrixAgregator
 {
 public:
-	CMatrixLineAgregator(const CMatrix & matrix);
+    CMatrixLineAgregator(const CMatrix & matrix);
 
     unsigned GetRang() override;
 };

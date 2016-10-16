@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     float first = float(clock());
     cout << first / CLOCKS_PER_SEC << endl;
 
-	CMatrixLineAgregator lineAgregator(MATRIX);
+    CMatrixLineAgregator lineAgregator(MATRIX);
     cout << lineAgregator.GetRang() << endl;
     cout << (float(clock()) - first) / CLOCKS_PER_SEC;
     return 0;

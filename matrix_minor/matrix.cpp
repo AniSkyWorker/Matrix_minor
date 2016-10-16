@@ -5,9 +5,14 @@
 
 using namespace std;
 
-size_t CMatrix::GetDimension() const
+size_t CMatrix::GetDimension()
 {
-    return m_dimension;
+    if (!m_dimension)
+    {
+        m_dimension = m_matrix.size();
+    }
+
+    return m_dimension.get();
 }
 
 MatrixType & CMatrix::GetMatrix()
